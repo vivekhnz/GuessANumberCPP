@@ -3,7 +3,16 @@
 
 using namespace std;
 
-int random(int min, int max) {
+enum class Result
+{
+	Correct,
+	TooLow,
+	TooHigh,
+	InvalidInput
+};
+
+int random(int min, int max)
+{
 	// create generator
 	random_device rng;
 	mt19937 engine(rng());
@@ -13,31 +22,60 @@ int random(int min, int max) {
 	return distribution(engine);
 }
 
-bool ask(int target)
+Result ask(int target)
 {
 	// ask the user for a number
 	cout << "Guess the number (between 1 and 100):" << endl;
+	
+	// parse input
 	int inputValue;
-	if (cin >> inputValue) {
-		return inputValue == target;
+	if (cin >> inputValue)
+	{
+		// was the user correct?
+		if (inputValue == target)
+			return Result::Correct;
+
+		// if not, describe why not
+		return inputValue > target
+			? Result::TooHigh
+			: Result::TooLow;
 	}
-	else {
+	else
+	{
 		// invalid value, flush the buffer
 		cin.clear();
 		cin.ignore(numeric_limits<streamsize>::max(), '\n');
-		cout << "Invalid input." << endl;
-		return false;
+		return Result::InvalidInput;
 	}
 }
 
-int main(int argc, char* argv[]) {
-
+int main(int argc, char* argv[])
+{
 	// pick a random number between 1 and 100
 	int target = random(1, 100);
 
+	// ask the user to guess the number
+	Result result = ask(target);
+
 	// keep asking the user until they guess correctly
-	while (!ask(target)) {
-		cout << "Incorrect." << endl;
+	while (result != Result::Correct)
+	{
+		// display relevant message
+		switch (result)
+		{
+		case Result::TooLow:
+			cout << "Incorrect (too low)." << endl;
+			break;
+		case Result::TooHigh:
+			cout << "Incorrect (too high)." << endl;
+			break;
+		case Result::InvalidInput:
+			cout << "Invalid input." << endl;
+			break;
+		}
+
+		// ask again
+		result = ask(target);
 	}
 
 	// correct
