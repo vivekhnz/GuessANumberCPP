@@ -1,15 +1,23 @@
 #include <iostream>
+#include <random>
 
-using std::cout;
-using std::cin;
-using std::endl;
+int random(int min, int max) {
+	// create generator
+	std::random_device rng;
+	std::mt19937 engine(rng());
+	std::uniform_int_distribution<> distribution(min, max);
+
+	// generate number
+	return distribution(engine);
+}
 
 int main(int argc, char* argv[]) {
-
-	// print message
-	cout << "Hello World!" << endl;
+	
+	// pick a random number between 1 and 100
+	int target = random(1, 100);
+	std::cout << target << std::endl;
 
 	// terminate after ENTER key press
-	cout << "Press ENTER to exit...";
-	cin.ignore();
+	std::cout << "Press ENTER to exit...";
+	std::cin.ignore();
 }
