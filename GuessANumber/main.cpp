@@ -31,22 +31,17 @@ bool ask(int target)
 }
 
 int main(int argc, char* argv[]) {
-	
+
 	// pick a random number between 1 and 100
 	int target = random(1, 100);
 
-	// ask the user to guess the number
-	if (ask(target))
-	{
-		// correct
-		cout << "Correct!" << endl;
+	// keep asking the user until they guess correctly
+	while (!ask(target)) {
+		cout << "Incorrect." << endl;
 	}
-	else
-	{
-		// incorrect
-		cout << "Incorrect. The correct answer was "
-			<< target << "." << endl;
-	}
+
+	// correct
+	cout << "Correct!" << endl;
 
 	// terminate after input
 	cout << "Press Ctrl+C to exit." << endl;
