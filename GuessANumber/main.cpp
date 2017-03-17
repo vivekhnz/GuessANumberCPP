@@ -55,6 +55,7 @@ int main(int argc, char* argv[])
 	int target = random(1, 100);
 
 	// ask the user to guess the number
+	int attempts = 1;
 	Result result = ask(target);
 
 	// keep asking the user until they guess correctly
@@ -75,11 +76,13 @@ int main(int argc, char* argv[])
 		}
 
 		// ask again
+		attempts++;
 		result = ask(target);
 	}
 
 	// correct
-	cout << "Correct!" << endl;
+	cout << "Correct! You guessed the number in "
+		<< attempts << " tries." << endl;
 
 	// terminate after input
 	cout << "Press Ctrl+C to exit." << endl;
